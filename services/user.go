@@ -50,7 +50,6 @@ func UpdateUser(id string, updatedUser *models.User) (*models.User, error) {
 		return nil, fiber.NewError(fiber.StatusBadRequest, "User Not Found")
 	}
 
-	// Update user fields
 	user.FirstName = updatedUser.FirstName
 	user.LastName = updatedUser.LastName
 	user.Email = updatedUser.Email

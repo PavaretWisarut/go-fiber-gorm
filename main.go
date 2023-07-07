@@ -1,14 +1,22 @@
 package main
 
 import (
-	"github.com/gofiber/fiber/v2"
 	"go-fiber-app/config"
+	"log"
+	"github.com/gofiber/fiber/v2"
+	"github.com/joho/godotenv"
 	// "go-fiber-app/controllers"
 	"go-fiber-app/routers"
+
 	"github.com/gofiber/fiber/v2/middleware/cors"
 )
 
 func main() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
 	config.InitialMigration()
 	app := fiber.New()
 
@@ -23,6 +31,7 @@ func main() {
 	api := app.Group("/api")
 
 	routers.SetupUserRouter(api)
+	routers.SetupProviderRouter(api)
 
 	app.Use(cors.New(corsConfig))
 	app.Listen(":3000")

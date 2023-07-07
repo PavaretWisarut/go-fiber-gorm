@@ -2,16 +2,16 @@ package controllers
 
 import (
 	"fmt"
-	"go-fiber-app/models"
 	"go-fiber-app/middleware"
+	"go-fiber-app/models"
 	"go-fiber-app/services"
-	"github.com/gofiber/fiber/v2"
 
+	"github.com/gofiber/fiber/v2"
 )
 
 func GetUsers(c *fiber.Ctx) error {
 	var users []models.User
-	GetUsers , err :=  services.GetUsers(users)
+	GetUsers, err := services.GetUsers(users)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -22,7 +22,7 @@ func GetUsers(c *fiber.Ctx) error {
 func GetUser(c *fiber.Ctx) error {
 	id := c.Params("id")
 	var user models.User
-	GetUsers , err :=  services.GetUser(&user , id)
+	GetUsers, err := services.GetUser(&user, id)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -36,7 +36,7 @@ func SaveUser(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
 	}
 
-	SaveUser , err:= services.SaveUser(user)
+	SaveUser, err := services.SaveUser(user)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -51,6 +51,7 @@ func UpdateUser(c *fiber.Ctx) error {
 	if err := c.BodyParser(updatedUser); err != nil {
 		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
 	}
+
 	user, err := services.UpdateUser(id, updatedUser)
 	if err != nil {
 		if fiberErr, ok := err.(*fiber.Error); ok {
@@ -66,7 +67,6 @@ func UpdateUser(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusCreated).Send(UpdateUser)
 }
-
 
 func DeleteUser(c *fiber.Ctx) error {
 	id := c.Params("id")
